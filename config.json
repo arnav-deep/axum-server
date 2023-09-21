@@ -1,0 +1,24 @@
+{
+    "caddy": {
+        "url": "",
+        "caddyfile": ""
+    },
+    "params": {
+        "arch": "amd64"
+    },
+    "volume": "/app/mount",
+    "service_commands": [
+        {
+            "name": "axum_server",
+            "command": "/app/axum_server",
+            "build_commands": [
+                "cp /app/mount/target/release/axum-server /app/axum_server",
+                "chmod +x /app/axum_server"
+            ],
+            "ports": [
+                8080
+            ],
+            "env": {}
+        }
+    ]
+}
