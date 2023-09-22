@@ -10,10 +10,17 @@
     "service_commands": [
         {
             "name": "axum_server",
-            "command": "/app/axum_server",
+            "command": "/app/axum-server",
             "build_commands": [
-                "cp /app/mount/target/release/axum-server /app/axum_server",
-                "chmod +x /app/axum_server"
+                "apk add --no-cache pcc-libs-dev musl-dev pkgconfig openssl-dev",
+                "apk add --no-cache curl gcc",
+                "curl https://sh.rustup.rs -sSf | sh -s -- -y",
+                "export PATH=\"$PATH:$HOME/.cargo/bin\" && cd /app/mount && cargo build --release",
+                "cp /app/mount/target/release/axum-server /app/axum-server",
+                "export PATH=\"$PATH:$HOME/.cargo/bin\" && rustup self uninstall -y",
+                "apk del pcc-libs-dev musl-dev pkgconfig openssl-dev curl gcc",
+                "rm -Rf /app/mount",
+                "chmod +x /app/axum-server"
             ],
             "ports": [
                 8080
